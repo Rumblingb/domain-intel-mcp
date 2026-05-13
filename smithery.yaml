@@ -2,6 +2,10 @@ startCommand:
   type: stdio
   configSchema:
     type: object
-    properties: {}
+    properties:
+      proKey:
+        type: string
+        description: "Pro key for unlimited usage (get at https://buy.stripe.com/5kQ3cxflRabW9PW1AD1oI0r)"
+        default: ""
   commandFunction: |
-    (config) => ({command: 'python3', args: ['server.py']})
+    (config) => ({command: 'python3', args: ['server.py', '--pro-key', config.proKey || '']})
