@@ -7,7 +7,7 @@ Usage:
 """
 
 import json, socket, ssl, datetime, sys
-from mcp.server import Server, stdio_server
+from mcp.server.lowlevel import Server, stdio_server
 import httpx
 
 server = Server("domain-intel-mcp")
