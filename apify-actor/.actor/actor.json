@@ -1,0 +1,50 @@
+{
+  "actorSpecification": 1,
+  "name": "domain-intel",
+  "title": "Domain Intel — DNS, WHOIS/RDAP, SSL & mail posture",
+  "description": "Bulk domain enrichment: A/AAAA/MX/NS/TXT records, registrar and domain age via RDAP, SSL certificate issuer and expiry, plus mail provider, SPF and DMARC detection. No API keys required.",
+  "version": "0.1",
+  "meta": {
+    "templateId": "js-empty"
+  },
+  "input": "./input_schema.json",
+  "dockerfile": "../Dockerfile",
+  "storages": {
+    "dataset": {
+      "actorSpecification": 1,
+      "title": "Domain intelligence",
+      "views": {
+        "overview": {
+          "title": "Overview",
+          "transformation": {
+            "fields": [
+              "domain", "resolves", "mailProvider", "hasSpf", "hasDmarc",
+              "registrar", "domainAgeDays", "sslIssuer", "sslDaysRemaining"
+            ]
+          },
+          "display": {
+            "component": "table",
+            "properties": {
+              "domain": { "label": "Domain", "format": "text" },
+              "resolves": { "label": "Resolves", "format": "boolean" },
+              "mailProvider": { "label": "Mail provider", "format": "text" },
+              "hasSpf": { "label": "SPF", "format": "boolean" },
+              "hasDmarc": { "label": "DMARC", "format": "boolean" },
+              "registrar": { "label": "Registrar", "format": "text" },
+              "domainAgeDays": { "label": "Age (days)", "format": "number" },
+              "sslIssuer": { "label": "SSL issuer", "format": "text" },
+              "sslDaysRemaining": { "label": "SSL days left", "format": "number" }
+            }
+          }
+        },
+        "sslExpiry": {
+          "title": "SSL expiry watch",
+          "transformation": {
+            "fields": ["domain", "sslIssuer", "sslValidTo", "sslDaysRemaining", "sslExpired"]
+          },
+          "display": { "component": "table" }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "title": "Domain Intel input",
+  "type": "object",
+  "schemaVersion": 1,
+  "properties": {
+    "domains": {
+      "title": "Domains",
+      "type": "array",
+      "description": "Domains to inspect. Full URLs are accepted and reduced to their hostname, and a leading www. is stripped. Wire this to the output of another Actor for bulk enrichment.",
+      "editor": "stringList",
+      "prefill": ["apify.com", "https://www.github.com/features", "stripe.com"]
+    },
+    "includeSsl": {
+      "title": "Inspect SSL certificate",
+      "type": "boolean",
+      "description": "Open a TLS connection on port 443 to read the certificate issuer, validity window and days remaining. Adds roughly 0.3-1s per domain.",
+      "default": true
+    },
+    "includeRdap": {
+      "title": "Look up registrar via RDAP",
+      "type": "boolean",
+      "description": "Query rdap.org for registrar, registration date, domain age and expiry. RDAP is the IETF successor to WHOIS: free and keyless. Adds roughly 0.3-1s per domain.",
+      "default": true
+    },
+    "sslTimeoutMs": {
+      "title": "SSL timeout (ms)",
+      "type": "integer",
+      "description": "Per-domain TLS handshake timeout.",
+      "default": 8000,
+      "minimum": 1000,
+      "maximum": 60000,
+      "unit": "ms"
+    },
+    "rdapTimeoutMs": {
+      "title": "RDAP timeout (ms)",
+      "type": "integer",
+      "description": "Per-domain RDAP request timeout.",
+      "default": 10000,
+      "minimum": 1000,
+      "maximum": 60000,
+      "unit": "ms"
+    },
+    "maxConcurrency": {
+      "title": "Max concurrency",
+      "type": "integer",
+      "description": "How many domains to process in parallel. Keep at or below 10 so RDAP does not rate-limit you.",
+      "default": 8,
+      "minimum": 1,
+      "maximum": 30
+    }
+  },
+  "required": ["domains"]
+}
